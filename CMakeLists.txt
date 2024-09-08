@@ -7,7 +7,6 @@ project(simple_animation
 
 find_package(OpenGL REQUIRED) # Main library
 find_package(glfw3 REQUIRED) # Do not really remember
-find_library(GLEW GLEW REQUIRED) # Extension library. Not even used here, but linked just in case
 find_library(GLUT glut REQUIRED) # GLUTils library
 
 set(PROJECT_SOURCES
@@ -39,4 +38,4 @@ target_sources(${PROJECT_NAME}
     ${PROJECT_SOURCES}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE glut OpenGL glfw GLEW ${OPENGL_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE glut OpenGL glfw ${OPENGL_LIBRARIES})
