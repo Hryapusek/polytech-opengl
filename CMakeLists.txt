@@ -16,6 +16,7 @@ set(PROJECT_SOURCES
     src/constants.cc
     src/state_machine/state_machine.cpp
     src/states/states.cpp
+    src/states/conus_sphere_moving_state/conus_sphere_stay_state.cc
 )
 
 add_executable(${PROJECT_NAME})

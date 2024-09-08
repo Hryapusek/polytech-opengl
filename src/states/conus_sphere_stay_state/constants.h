@@ -22,13 +22,6 @@ namespace states::conus_sphere_stay_state::constants {
     static constexpr GLint sphere_stacks = 100;
 
     static constexpr glm::dvec3 cone_start_pos = glm::dvec3(-20, 0, -19);
-    static constexpr glm::dvec3 sphere_start_pos = glm::dvec3(20, 0, 0.);
-
-    // These constants whould be in ConusSphereMove state
-    static constexpr glm::dvec3 cone_end_pos = glm::dvec3(0, 0, -19);
-    static constexpr glm::dvec3 sphere_end_pos = glm::dvec3(0, 0, 0.);
-
-    static constexpr GLdouble sphere_start_pos_x = -20.;
-    static constexpr GLdouble sphere_start_pos_y = 0.;
+    static constexpr glm::dvec3 sphere_start_pos = glm::dvec3(20, 0, -19.0);
 
 }
