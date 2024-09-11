@@ -28,7 +28,9 @@ namespace states {
 
     frames_count = frames_count > tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT ? tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT : frames_count;
 
-    glScaled(1, 1 + 1.0 * (frames_count) / tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT, 1);
+    constexpr auto max_frames = tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT;
+
+    glScaled(torus_result_scale.x, torus_result_scale.y - (1.0 * max_frames - frames_count) / max_frames, 1);
     glTranslated(torus_start_pos.x, torus_start_pos.y, torus_start_pos.z);
 
     glutWireTorus(torus_inner_radius, torus_outer_radius, torus_sides, torus_rings);

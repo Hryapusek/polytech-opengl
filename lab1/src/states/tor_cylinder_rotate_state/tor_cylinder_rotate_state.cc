@@ -39,7 +39,11 @@ namespace states {
 
     glPushMatrix(); // Save the current matrix state
 
-    glRotated((frames_count % tor_cylinder_state::constants::MAX_FRAMES_COUNT) * 360 / tor_cylinder_state::constants::MAX_FRAMES_COUNT, 1, 0, 0);
+    constexpr auto max_frames_count = tor_cylinder_rotate_state::constants::MAX_FRAMES_COUNT;
+
+    frames_count = frames_count > max_frames_count ? max_frames_count : frames_count;
+
+    glRotated(90 + frames_count * 360 / max_frames_count, 1, 0, 0);
     glTranslated(cylinder_start_pos.y, -cylinder_start_pos.x, cylinder_start_pos.z);
 
     // Draw the wireframe cylinder (same dimensions for the overlay)

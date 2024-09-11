@@ -11,5 +11,5 @@ namespace states::tor_stretch_cylinder_state::constants {
     static constexpr size_t STAY_SECONDS = 1;
     static constexpr size_t MAX_FRAMES_COUNT = ::constants::FRAMES_PER_SECONDS * STAY_SECONDS;
 
-    static constexpr glm::dvec3 torus_scale = glm::dvec3(0.5, 0.5, 0.5);
+    static constexpr glm::dvec3 torus_result_scale = glm::dvec3(1, 2, 1);
 }
