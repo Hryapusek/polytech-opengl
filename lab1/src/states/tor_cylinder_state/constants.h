@@ -9,7 +9,7 @@
 
 namespace states::tor_cylinder_state::constants {
 
-    static constexpr size_t STAY_SECONDS = 3;
+    static constexpr size_t STAY_SECONDS = 1;
     static constexpr size_t MAX_FRAMES_COUNT = ::constants::FRAMES_PER_SECONDS * STAY_SECONDS;
 
     static constexpr GLdouble torus_inner_radius = 5;

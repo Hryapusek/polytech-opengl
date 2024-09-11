@@ -1,6 +1,7 @@
-#include <states/tor_cylinder_state/tor_cylinder_state.h>
+#include <states/tor_stretch_cylinder_state/tor_stretch_cylinder_state.h>
 
 #include <iostream>
+#include <cmath>
 
 #include <GL/glu.h>
 #include <GL/glut.h>    // Include GLUT for cool drawing utils
@@ -8,21 +9,26 @@
 
 #include <state_machine/state_machine.h>
 #include <states/tor_cylinder_state/constants.h>
-#include <states/tor_cylinder_rotate_state/tor_cylinder_rotate_state.h>
+#include <states/tor_stretch_cylinder_state/constants.h>
 
 using namespace states::tor_cylinder_state::constants;
+using namespace states::tor_stretch_cylinder_state::constants;
 
 namespace states {
-  GLState* TorCylinderState::display()
+  GLState* TorStretchCylinderState::display()
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
 
     // --- Draw the solid cylinder ---
     glPushMatrix(); // Save the current matrix state
+    glLoadIdentity();
 
     // Create a quadric object for the cylinder
     GLUquadric* quadric = gluNewQuadric();
 
+    frames_count = frames_count > tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT ? tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT : frames_count;
+
+    glScaled(1, 1 + 1.0 * (frames_count) / tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT, 1);
     glTranslated(torus_start_pos.x, torus_start_pos.y, torus_start_pos.z);
 
     glutWireTorus(torus_inner_radius, torus_outer_radius, torus_sides, torus_rings);
@@ -57,12 +63,13 @@ namespace states {
     return this;
   }
 
-  void TorCylinderState::timeout()
+  void TorStretchCylinderState::timeout()
   {
-    std::cout << __func__ << " timeout " << frames_count << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " timeout " << frames_count << std::endl;
     frames_count++;
     glutPostRedisplay();
-    if (frames_count == MAX_FRAMES_COUNT)
-      state_machine::StateMachine::instance()->set_state(new states::TorCylinderRotateState());
+    // if (frames_count == MAX_FRAMES_COUNT)
+    //   state_machine::StateMachine::instance()->set_state(new states::ConusSphereMoveState());
   }
 } // namespace states
+

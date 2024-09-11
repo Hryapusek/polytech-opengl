@@ -1,4 +1,4 @@
-#include <states/tor_cylinder_state/tor_cylinder_state.h>
+#include <states/tor_cylinder_rotate_state/tor_cylinder_rotate_state.h>
 
 #include <iostream>
 
@@ -7,13 +7,15 @@
 #include <GLFW/glfw3.h> // Include GLFW for window and context management
 
 #include <state_machine/state_machine.h>
+#include <states/tor_cylinder_rotate_state/constants.h>
 #include <states/tor_cylinder_state/constants.h>
-#include <states/tor_cylinder_rotate_state/tor_cylinder_rotate_state.h>
+#include <states/tor_stretch_cylinder_state/tor_stretch_cylinder_state.h>
 
+using namespace states::tor_cylinder_rotate_state::constants;
 using namespace states::tor_cylinder_state::constants;
 
 namespace states {
-  GLState* TorCylinderState::display()
+  GLState* TorCylinderRotateState::display()
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
 
@@ -37,7 +39,7 @@ namespace states {
 
     glPushMatrix(); // Save the current matrix state
 
-    glRotated(90, 1, 0, 0);
+    glRotated((frames_count % tor_cylinder_state::constants::MAX_FRAMES_COUNT) * 360 / tor_cylinder_state::constants::MAX_FRAMES_COUNT, 1, 0, 0);
     glTranslated(cylinder_start_pos.y, -cylinder_start_pos.x, cylinder_start_pos.z);
 
     // Draw the wireframe cylinder (same dimensions for the overlay)
@@ -57,12 +59,13 @@ namespace states {
     return this;
   }
 
-  void TorCylinderState::timeout()
+  void TorCylinderRotateState::timeout()
   {
     std::cout << __func__ << " timeout " << frames_count << std::endl;
     frames_count++;
     glutPostRedisplay();
-    if (frames_count == MAX_FRAMES_COUNT)
-      state_machine::StateMachine::instance()->set_state(new states::TorCylinderRotateState());
+    if (frames_count == ::states::tor_cylinder_rotate_state::constants::MAX_FRAMES_COUNT)
+      state_machine::StateMachine::instance()->set_state(new states::TorStretchCylinderState());
   }
 } // namespace states
+
