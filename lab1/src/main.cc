@@ -11,12 +11,29 @@ state_machine::StateMachine *state_machine_obj = state_machine::StateMachine::in
 
 void init()
 {
-  glViewport(0, 0, constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
-  glClearColor(0.0, 0.0, 0.0, 1);
-  glMatrixMode(GL_PROJECTION);
-  glLoadIdentity();
-  glOrtho(constants::ORTHO_LEFT, constants::ORTHO_RIGHT, constants::ORTHO_BOTTOM, constants::ORTHO_TOP, constants::ORTHO_NEAR, constants::ORTHO_FAR);
+    glMatrixMode(GL_PROJECTION);  // Switch to projection matrix
+    glLoadIdentity();             // Reset the projection matrix
+
+    // Set up a perspective projection using the constants
+    gluPerspective(constants::FOV_Y, 
+                   (double)constants::WINDOW_WIDTH / (double)constants::WINDOW_HEIGHT, 
+                   constants::NEAR_PLANE, 
+                   constants::FAR_PLANE);
+
+    // Set the camera position and look-at point using the constants
+    gluLookAt(constants::CAMERA_POS_X, constants::CAMERA_POS_Y, constants::CAMERA_POS_Z,  // Camera position
+              constants::LOOK_AT_X, constants::LOOK_AT_Y, constants::LOOK_AT_Z,          // Look-at point
+              constants::UP_X, constants::UP_Y, constants::UP_Z);                        // Up vector
+
+    glMatrixMode(GL_MODELVIEW);   // Switch back to model-view matrix
+    glLoadIdentity();             // Reset the model-view matrix
+
+    glEnable(GL_DEPTH_TEST);      // Enable depth testing
+    glDisable(GL_CULL_FACE);      // Disable face culling
 }
+
+
+
 
 void display()
 {
@@ -51,13 +68,14 @@ void timeout(int /*unused*/)
 int main(int argc, char** argv)
 {
   glutInit(&argc, argv);
-  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+  glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+
+  init();
 
   glutInitWindowSize(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
   glutInitWindowPosition(constants::WINDOW_POSITION_X, constants::WINDOW_POSITION_Y);
   
   glutCreateWindow("Simple GLUT App with animations");
-  init();
 
   state_machine_obj->set_state(new states::ConusSphereStayState());
 

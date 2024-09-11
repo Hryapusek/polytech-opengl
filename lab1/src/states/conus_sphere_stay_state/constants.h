@@ -9,7 +9,7 @@
 
 namespace states::conus_sphere_stay_state::constants {
 
-    static constexpr size_t STAY_SECONDS = 3;
+    static constexpr size_t STAY_SECONDS = 1;
     static constexpr size_t MAX_FRAMES_COUNT = ::constants::FRAMES_PER_SECONDS * STAY_SECONDS;
 
     static constexpr GLdouble cone_base = 20.0;

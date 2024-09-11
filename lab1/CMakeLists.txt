@@ -13,9 +13,10 @@ set(PROJECT_SOURCES
     src/main.cc
     src/states/conus_sphere_stay_state/conus_sphere_stay_state.cc
     src/constants.cc
-    src/state_machine/state_machine.cpp
-    src/states/states.cpp
+    src/state_machine/state_machine.cc
+    src/states/states.cc
     src/states/conus_sphere_moving_state/conus_sphere_stay_state.cc
+    src/states/tor_cylinder_state/tor_cylinder_state.cc
 )
 
 add_executable(${PROJECT_NAME})

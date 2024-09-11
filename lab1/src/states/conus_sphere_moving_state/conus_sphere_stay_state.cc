@@ -8,6 +8,7 @@
 #include <state_machine/state_machine.h>
 #include <states/conus_sphere_stay_state/constants.h>
 #include <states/conus_sphere_moving_state/constants.h>
+#include <states/tor_cylinder_state/tor_cylinder_state.h>
 
 using namespace states::conus_sphere_moving_state::constants;
 using namespace states::conus_sphere_stay_state::constants;
@@ -55,7 +56,9 @@ namespace states {
     std::cout << "ConusSphereMovingState timeout " << frames_count << std::endl;
     frames_count++;
     glutPostRedisplay();
-    // if (frames_count == MAX_FRAMES_COUNT)
-    //   state_machine::StateMachine::instance()->set_state(new states::ConusSphereMoveState());
+    if (frames_count == MAX_FRAMES_COUNT)
+    {
+      state_machine::StateMachine::instance()->set_state(new states::TorCylinderState());
+    }
   }
 } // namespace states

@@ -9,7 +9,7 @@
 
 namespace states::conus_sphere_moving_state::constants {
 
-    static constexpr size_t ANIMATION_SECONDS = 3;
+    static constexpr size_t ANIMATION_SECONDS = 1;
     static constexpr size_t MAX_ANIMATION_FRAMES = ANIMATION_SECONDS * ::constants::FRAMES_PER_SECONDS;
 
     static constexpr glm::dvec3 cone_end_pos = glm::dvec3(0, 0, -19);

@@ -12,7 +12,13 @@ namespace state_machine {
     void display();
     bool timeout();
 
-    void set_state(states::GLState* state) { current_state = state; }
+    void set_state(states::GLState* state) {
+      if (current_state != nullptr) {
+        delete current_state;
+        current_state = nullptr;
+      }
+      current_state = state;
+    }
 
     static StateMachine *instance()
     {

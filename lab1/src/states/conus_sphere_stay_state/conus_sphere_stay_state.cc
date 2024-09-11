@@ -42,8 +42,7 @@ namespace states {
     frames_count++;
     glutPostRedisplay();
     if (frames_count == MAX_FRAMES_COUNT) {
-      std::cout << "Switching the staten\n";
-      delete this;
+      std::cout << "Switching the state\n";
       state_machine::StateMachine::instance()->set_state(new states::ConusSphereMovingState());
     }
   }
