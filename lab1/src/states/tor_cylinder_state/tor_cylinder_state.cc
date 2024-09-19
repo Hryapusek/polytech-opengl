@@ -4,7 +4,6 @@
 
 #include <GL/glu.h>
 #include <GL/glut.h>    // Include GLUT for cool drawing utils
-#include <GLFW/glfw3.h> // Include GLFW for window and context management
 
 #include <state_machine/state_machine.h>
 #include <states/tor_cylinder_state/constants.h>

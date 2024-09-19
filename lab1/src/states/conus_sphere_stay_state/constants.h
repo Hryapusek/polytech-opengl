@@ -1,7 +1,6 @@
 #pragma once
 
 #include <GL/glut.h>    // Include GLUT for cool drawing utils
-#include <GLFW/glfw3.h> // Include GLFW for window and context management
 
 #include <glm/vec3.hpp>
 

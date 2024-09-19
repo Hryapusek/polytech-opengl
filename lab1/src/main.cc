@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include <GL/glut.h>    // Include GLUT for cool drawing utils
-#include <GLFW/glfw3.h> // Include GLFW for window and context management
 
 #include <states/conus_sphere_stay_state/conus_sphere_stay_state.h>
 #include <state_machine/state_machine.h>
