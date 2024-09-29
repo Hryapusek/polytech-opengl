@@ -45,14 +45,6 @@ namespace glwidget {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
-    GLfloat light_ambient[] = { 1.f, 1.f, 1.f, 1.0f }; // Low intensity ambient light
-    GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // Full intensity white diffuse light
-    GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // Full intensity white specular light
-
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);   // Ambient light
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);   // Diffuse light
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);  // Specular light
-
     startTimer(1000 / constants::FRAMES_PER_SECONDS);
   }
 
@@ -77,6 +69,9 @@ namespace glwidget {
   }
 
   void GLWidget::paint_light() {
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient.data());   // Ambient light
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse.data());   // Diffuse light
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular.data());  // Specular light
     glLightfv(GL_LIGHT0, GL_POSITION, light_position.data());
   }
 

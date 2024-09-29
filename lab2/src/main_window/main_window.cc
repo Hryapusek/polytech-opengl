@@ -4,61 +4,29 @@
 #include <glwidget/glwidget.h>
 
 namespace main_window_ns {
-  MainWindow::MainWindow() {
+  MainWindow::MainWindow()
+  {
     gl_widget = new glwidget::GLWidget(this);
     main_widget = new QWidget(this);
     main_layout = new QVBoxLayout(main_widget);
     setCentralWidget(main_widget);
 
-    sliders_layout = new QVBoxLayout();
-    main_layout->addLayout(sliders_layout);
     main_layout->addWidget(gl_widget);
 
-    x_slider = new QSlider(Qt::Horizontal);
-    y_slider = new QSlider(Qt::Horizontal);
-    z_slider = new QSlider(Qt::Horizontal);
+    params_window = new params_window_ns::ParamsWindow(this);
 
-    for (auto &slider : {x_slider, y_slider, z_slider}) {
-      slider->setMinimum(-1000);
-      slider->setMaximum(1000);
-      slider->setValue(100);
-      slider->setTickPosition(QSlider::TickPosition::TicksAbove);
-      slider->setTickInterval(10);
-    }
+    connect(params_window, &params_window_ns::ParamsWindow::sig_light_position_updated,
+            [this](glm::fvec3 position) { gl_widget->set_light_position(position); });
+    connect(params_window, &params_window_ns::ParamsWindow::sig_light_position_updated_x,
+            [this](GLfloat new_x) { gl_widget->set_light_position_x(new_x); });
+    connect(params_window, &params_window_ns::ParamsWindow::sig_light_position_updated_y,
+            [this](GLfloat new_y) { gl_widget->set_light_position_y(new_y); });
+    connect(params_window, &params_window_ns::ParamsWindow::sig_light_position_updated_z,
+            [this](GLfloat new_z) { gl_widget->set_light_position_z(new_z); });
 
-    gl_widget->set_light_position({1.0f, 1.0f, 1.0f});
+    connect(params_window, &params_window_ns::ParamsWindow::sig_color_changed,
+            [this](QColor color) { gl_widget->set_light_color(color); });
 
-    {
-      QHBoxLayout *pair_layout = new QHBoxLayout;
-      QLabel *label = new QLabel("X");
-      pair_layout->addWidget(label);
-      pair_layout->addWidget(x_slider);
-      sliders_layout->addLayout(pair_layout);
-      connect(x_slider, &QSlider::valueChanged, [this](int value) {
-        gl_widget->set_light_position_x(value/10.0f);
-      });
-    }
-
-    {
-      QHBoxLayout *pair_layout = new QHBoxLayout;
-      QLabel *label = new QLabel("Y");
-      pair_layout->addWidget(label);
-      pair_layout->addWidget(y_slider);
-      sliders_layout->addLayout(pair_layout);
-      connect(y_slider, &QSlider::valueChanged, [this](int value) {
-        gl_widget->set_light_position_y(value/10.0f);
-      });
-    }
-
-    {
-      QHBoxLayout *pair_layout = new QHBoxLayout;
-      QLabel *label = new QLabel("Z");
-      pair_layout->addWidget(label);
-      pair_layout->addWidget(z_slider);
-      sliders_layout->addLayout(pair_layout);
-      connect(z_slider, &QSlider::valueChanged, [this](int value) {
-        gl_widget->set_light_position_z(value/10.0f);
-      });
-    }
+    params_window->show();
   }
 } // namespace main_window_ns

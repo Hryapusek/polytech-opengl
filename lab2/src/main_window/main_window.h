@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QSlider>
 #include <glwidget/glwidget.h>
+#include <params_window/params_window.h>
 
 namespace main_window_ns {
   class MainWindow : public QMainWindow
@@ -16,11 +17,8 @@ namespace main_window_ns {
    private:
     QWidget *main_widget = nullptr;
     QVBoxLayout *main_layout = nullptr;
-    QVBoxLayout *sliders_layout = nullptr;
     glwidget::GLWidget *gl_widget = nullptr;
 
-    QSlider *x_slider = nullptr;
-    QSlider *y_slider = nullptr;
-    QSlider *z_slider = nullptr;
+    params_window_ns::ParamsWindow *params_window = nullptr;
   };
 } // namespace main_window_ns

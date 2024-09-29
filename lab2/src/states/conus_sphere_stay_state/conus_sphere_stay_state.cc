@@ -30,9 +30,6 @@ namespace states {
 
     glColor4f(1.0f, 1.0f, 1.0f, 1.f);
 
-    GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // White specular color
-    GLfloat mat_shininess[] = { 50.0f }; // Shininess factor (higher values mean more polished)
-
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 

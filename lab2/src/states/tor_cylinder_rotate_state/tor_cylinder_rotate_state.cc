@@ -9,6 +9,7 @@
 #include <states/tor_cylinder_rotate_state/constants.h>
 #include <states/tor_cylinder_state/constants.h>
 #include <states/tor_stretch_cylinder_state/tor_stretch_cylinder_state.h>
+#include <utils/utils.h>
 
 using namespace states::tor_cylinder_rotate_state::constants;
 using namespace states::tor_cylinder_state::constants;
@@ -61,7 +62,7 @@ namespace states {
 
   void TorCylinderRotateState::timeout()
   {
-    std::cout << __PRETTY_FUNCTION__ << " timeout " << frames_count << std::endl;
+    std::cout << CURRENT_FUNCTION << " timeout " << frames_count << std::endl;
     frames_count++;
     if (frames_count == ::states::tor_cylinder_rotate_state::constants::MAX_FRAMES_COUNT)
       state_machine::StateMachine::instance()->set_state(new states::TorStretchCylinderState());

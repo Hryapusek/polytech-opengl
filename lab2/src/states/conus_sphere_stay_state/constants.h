@@ -23,4 +23,7 @@ namespace states::conus_sphere_stay_state::constants {
     static constexpr glm::dvec3 cone_start_pos = glm::dvec3(-20, 0, -19);
     static constexpr glm::dvec3 sphere_start_pos = glm::dvec3(20, 0, -19.0);
 
+    static constexpr GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    static constexpr GLfloat mat_shininess[] = { 50.0f }; // Shininess factor (higher values mean more polished)
+
 }

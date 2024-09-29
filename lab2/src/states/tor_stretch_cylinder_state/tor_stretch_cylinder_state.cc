@@ -9,6 +9,9 @@
 #include <state_machine/state_machine.h>
 #include <states/tor_cylinder_state/constants.h>
 #include <states/tor_stretch_cylinder_state/constants.h>
+#include <states/conus_sphere_stay_state/conus_sphere_stay_state.h>
+
+#include <utils/utils.h>
 
 using namespace states::tor_cylinder_state::constants;
 using namespace states::tor_stretch_cylinder_state::constants;
@@ -65,10 +68,10 @@ namespace states {
 
   void TorStretchCylinderState::timeout()
   {
-    std::cout << __PRETTY_FUNCTION__ << " timeout " << frames_count << std::endl;
+    std::cout << CURRENT_FUNCTION << " timeout " << frames_count << std::endl;
     frames_count++;
-    // if (frames_count == MAX_FRAMES_COUNT)
-    //   state_machine::StateMachine::instance()->set_state(new states::ConusSphereMoveState());
+    if (frames_count == tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT)
+      state_machine::StateMachine::instance()->set_state(new states::ConusSphereStayState());
   }
 } // namespace states
 

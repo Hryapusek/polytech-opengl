@@ -5,8 +5,12 @@ project(obejct_with_textures
     DESCRIPTION "This project belongs to the second lab work of polytech"
 )
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets OpenGL)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Widgets OpenGL)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets OpenGL)
 
 find_package(OpenGL REQUIRED) # Main library
 find_library(GLUT glut REQUIRED) # GLUTils library
@@ -27,6 +31,10 @@ set(PROJECT_SOURCES
     src/glwidget/glwidget.cc
 
     src/main_window/main_window.cc
+
+    src/params_window/params_window.cc
+
+    src/custom_widgets/fancy_slider.cc
 )
 
 add_executable(${PROJECT_NAME})
@@ -53,6 +61,7 @@ target_link_libraries(${PROJECT_NAME}
   PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::OpenGL
+    Qt${QT_VERSION_MAJOR}::Core
     glut
     OpenGL
     ${OPENGL_LIBRARIES})

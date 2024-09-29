@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include <GL/glut.h>    // Include GLUT for cool drawing utils
+#include <GL/glut.h> // Include GLUT for cool drawing utils
 
 #include <state_machine/state_machine.h>
 #include <states/conus_sphere_stay_state/constants.h>
@@ -40,13 +40,19 @@ namespace states {
     glLoadIdentity();
 
     glm::dvec3 new_sphere_pos {
-      sphere_start_pos.x + (sphere_end_pos.x - sphere_start_pos.x) / MAX_ANIMATION_FRAMES * frames_count,
-      sphere_start_pos.y + (sphere_end_pos.y - sphere_start_pos.y) / MAX_ANIMATION_FRAMES * frames_count,
-      sphere_start_pos.z + (sphere_end_pos.z - sphere_start_pos.z) / MAX_ANIMATION_FRAMES * frames_count,
+      sphere_start_pos.x +
+        (sphere_end_pos.x - sphere_start_pos.x) / MAX_ANIMATION_FRAMES * frames_count,
+      sphere_start_pos.y +
+        (sphere_end_pos.y - sphere_start_pos.y) / MAX_ANIMATION_FRAMES * frames_count,
+      sphere_start_pos.z +
+        (sphere_end_pos.z - sphere_start_pos.z) / MAX_ANIMATION_FRAMES * frames_count,
     };
 
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
     glTranslated(new_sphere_pos.x, new_sphere_pos.y, new_sphere_pos.z);
-    glutWireSphere(sphere_radius, sphere_slices, sphere_stacks);
+    glutSolidSphere(sphere_radius, sphere_slices, sphere_stacks);
 
     glPopMatrix();
     return this;
@@ -56,8 +62,7 @@ namespace states {
   {
     std::cout << "ConusSphereMovingState timeout " << frames_count << std::endl;
     frames_count++;
-    if (frames_count == MAX_FRAMES_COUNT)
-    {
+    if (frames_count == MAX_FRAMES_COUNT) {
       state_machine::StateMachine::instance()->set_state(new states::TorCylinderState());
     }
   }
