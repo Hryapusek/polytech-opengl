@@ -3,6 +3,8 @@
 #include <QGLWidget>
 #include <QWidget>
 
+#include <glm/glm.hpp>
+
 #include <state_machine/state_machine.h>
 
 namespace glwidget {
@@ -17,7 +19,21 @@ namespace glwidget {
     void resizeGL(int width, int height) override;
     void timerEvent(QTimerEvent* event) override;
 
+    void set_light_position(glm::fvec3 position);
+    void set_light_position_x(GLfloat x) {
+      light_position[0] = x;
+    }
+    void set_light_position_y(GLfloat y) {
+      light_position[1] = y;
+    }
+    void set_light_position_z(GLfloat z) {
+      light_position[2] = z;
+    }
+
    protected:
     state_machine::StateMachine* state_machine_obj = state_machine::StateMachine::instance();
+    std::array<GLfloat, 4> light_position = {1.0f, 1.0f, 1.0f, 1.0f};
+
+    void paint_light();
   };
 } // namespace glwidget

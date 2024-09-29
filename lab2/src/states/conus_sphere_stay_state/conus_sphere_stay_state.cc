@@ -14,6 +14,7 @@ namespace states {
   GLState* ConusSphereStayState::display()
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
+    glColor4f(1.0f, 1.0f, 1.0f, constants::LOWER_ALPHA);
     glPushMatrix();
     glLoadIdentity();
 
@@ -27,8 +28,16 @@ namespace states {
     glPushMatrix();
     glLoadIdentity();
 
+    glColor4f(1.0f, 1.0f, 1.0f, 1.f);
+
+    GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // White specular color
+    GLfloat mat_shininess[] = { 50.0f }; // Shininess factor (higher values mean more polished)
+
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
     glTranslated(sphere_start_pos.x, sphere_start_pos.y, sphere_start_pos.z);
-    glutWireSphere(sphere_radius, sphere_slices, sphere_stacks);
+    glutSolidSphere(sphere_radius, sphere_slices, sphere_stacks); // Draw filled sphere
 
     glPopMatrix();
     return this;

@@ -19,7 +19,6 @@ int main(int argc, char** argv)
   QApplication app(argc, argv);
 
   main_window_ns::MainWindow main_window;
-  main_window.setStyleSheet("QMainWindow {background: #000000;}");
   main_window.resize(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
   state_machine_obj->set_state(new states::ConusSphereStayState());
   main_window.show();

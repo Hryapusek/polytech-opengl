@@ -27,9 +27,12 @@ namespace states {
 
     glTranslated(new_cone_pos.x, new_cone_pos.y, new_cone_pos.z);
 
+    glColor4f(1.0f, 1.0f, 1.0f, constants::LOWER_ALPHA);
+
     glRotated(90, -1, 0, 0);
     glutWireCone(cone_base, cone_height, cone_slices, cone_stacks);
 
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
     glPopMatrix();
     glLoadIdentity();

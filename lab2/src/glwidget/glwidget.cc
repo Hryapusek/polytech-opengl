@@ -38,22 +38,46 @@ namespace glwidget {
 
     glEnable(GL_DEPTH_TEST); // Enable depth testing
     glDisable(GL_CULL_FACE); // Disable face culling
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
+
+    GLfloat light_ambient[] = { 1.f, 1.f, 1.f, 1.0f }; // Low intensity ambient light
+    GLfloat light_diffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // Full intensity white diffuse light
+    GLfloat light_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f }; // Full intensity white specular light
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);   // Ambient light
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);   // Diffuse light
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular);  // Specular light
+
     startTimer(1000 / constants::FRAMES_PER_SECONDS);
   }
 
   void GLWidget::paintGL() { 
-
-    state_machine_obj->display(); }
+    paint_light();
+    state_machine_obj->display();
+  }
 
   void GLWidget::resizeGL(int width, int height) { state_machine_obj->reshape(width, height); }
 
-  void glwidget::GLWidget::timerEvent(QTimerEvent* event)
+  void GLWidget::timerEvent(QTimerEvent* event)
   {
     state_machine_obj->timeout();
     update();
     QGLWidget::timerEvent(event);
   }
 
+  void GLWidget::set_light_position(glm::fvec3 position) {
+    light_position[0] = position.x;
+    light_position[1] = position.y;
+    light_position[2] = position.z;
+  }
 
+  void GLWidget::paint_light() {
+    glLightfv(GL_LIGHT0, GL_POSITION, light_position.data());
+  }
 
 } // namespace glwidget
