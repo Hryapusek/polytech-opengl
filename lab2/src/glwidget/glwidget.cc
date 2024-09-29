@@ -48,7 +48,8 @@ namespace glwidget {
     startTimer(1000 / constants::FRAMES_PER_SECONDS);
   }
 
-  void GLWidget::paintGL() { 
+  void GLWidget::paintGL()
+  {
     paint_light();
     state_machine_obj->display();
   }
@@ -62,17 +63,33 @@ namespace glwidget {
     QGLWidget::timerEvent(event);
   }
 
-  void GLWidget::set_light_position(glm::fvec3 position) {
+  void GLWidget::set_light_position(glm::fvec3 position)
+  {
     light_position[0] = position.x;
     light_position[1] = position.y;
     light_position[2] = position.z;
   }
 
-  void GLWidget::paint_light() {
-    glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient.data());   // Ambient light
-    glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse.data());   // Diffuse light
-    glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular.data());  // Specular light
-    glLightfv(GL_LIGHT0, GL_POSITION, light_position.data());
+  void GLWidget::paint_light()
+  {
+    std::array<GLfloat, 4> intensity_light_ambient = {};
+    std::array<GLfloat, 4> intensity_light_diffuse = {};
+    std::array<GLfloat, 4> intensity_light_specular = {};
+    std::array<GLfloat, 4> intensity_light_position = {};
+
+    std::transform(light_ambient.begin(), light_ambient.end(), intensity_light_ambient.begin(),
+                   [this](GLfloat val) { return val * light_intensity; });
+    std::transform(light_diffuse.begin(), light_diffuse.end(), intensity_light_diffuse.begin(),
+                   [this](GLfloat val) { return val * light_intensity; });
+    std::transform(light_specular.begin(), light_specular.end(), intensity_light_specular.begin(),
+                   [this](GLfloat val) { return val * light_intensity; });
+    std::transform(light_position.begin(), light_position.end(), intensity_light_position.begin(),
+                   [this](GLfloat val) { return val * light_intensity; });
+
+    glLightfv(GL_LIGHT0, GL_AMBIENT, intensity_light_ambient.data());   // Ambient light
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, intensity_light_diffuse.data());   // Diffuse light
+    glLightfv(GL_LIGHT0, GL_SPECULAR, intensity_light_specular.data()); // Specular light
+    glLightfv(GL_LIGHT0, GL_POSITION, intensity_light_position.data());
   }
 
 } // namespace glwidget

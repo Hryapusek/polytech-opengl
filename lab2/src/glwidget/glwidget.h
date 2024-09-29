@@ -37,6 +37,10 @@ namespace glwidget {
       light_ambient[2] = color.blueF();
     }
 
+    void set_light_intensity(GLfloat new_intensity) {
+      light_intensity = new_intensity;
+    }
+
    protected:
     state_machine::StateMachine* state_machine_obj = state_machine::StateMachine::instance();
     std::array<GLfloat, 4> light_position = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -44,6 +48,8 @@ namespace glwidget {
     std::array<GLfloat, 4> light_ambient = { 1.f, 1.f, 1.f, 1.0f }; // Low intensity ambient light
     std::array<GLfloat, 4> light_diffuse = { 1.0f, 1.0f, 1.0f, 1.0f }; // Full intensity white diffuse light
     std::array<GLfloat, 4> light_specular = { 1.0f, 1.0f, 1.0f, 1.0f }; // Full intensity white specular light
+
+    GLfloat light_intensity = 1.0f;
 
     void paint_light();
   };

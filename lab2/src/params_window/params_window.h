@@ -25,6 +25,8 @@ namespace params_window_ns {
 
     void sig_color_changed(QColor color);
 
+    void sig_light_intensity_updated(GLfloat new_intensity);
+
    private:
     QWidget *main_widget = nullptr;
     QVBoxLayout *main_layout = nullptr;
@@ -34,5 +36,7 @@ namespace params_window_ns {
     custom_widgets::FancySlider *z_slider = nullptr;
 
     QPushButton *choose_color_button = nullptr;
+
+    custom_widgets::FancySlider *light_intensity_slider = nullptr;
   };
 } // namespace main_window_ns

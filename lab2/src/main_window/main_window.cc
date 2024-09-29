@@ -26,6 +26,9 @@ namespace main_window_ns {
 
     connect(params_window, &params_window_ns::ParamsWindow::sig_color_changed,
             [this](QColor color) { gl_widget->set_light_color(color); });
+    
+    connect(params_window, &params_window_ns::ParamsWindow::sig_light_intensity_updated,
+            [this](GLfloat new_intensity) { gl_widget->set_light_intensity(new_intensity); });
 
     params_window->show();
   }
