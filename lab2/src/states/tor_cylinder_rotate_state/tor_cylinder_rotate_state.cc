@@ -1,5 +1,3 @@
-#include <utils/utils.h>
-
 #include <iostream>
 #include <mutex>
 
@@ -12,6 +10,7 @@
 #include <states/tor_cylinder_rotate_state/constants.h>
 #include <states/tor_cylinder_state/constants.h>
 #include <states/tor_stretch_cylinder_state/tor_stretch_cylinder_state.h>
+#include <utils/utils.h>
 
 using namespace states::tor_cylinder_rotate_state::constants;
 using namespace states::tor_cylinder_state::constants;

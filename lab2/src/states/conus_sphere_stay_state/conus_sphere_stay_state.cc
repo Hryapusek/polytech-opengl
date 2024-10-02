@@ -1,5 +1,3 @@
-#include <utils/utils.h>
-
 #include <states/conus_sphere_stay_state/conus_sphere_stay_state.h>
 
 #include <iostream>
@@ -9,6 +7,7 @@
 #include <state_machine/state_machine.h>
 #include <states/conus_sphere_moving_state/conus_sphere_moving_state.h>
 #include <states/conus_sphere_stay_state/constants.h>
+#include <utils/utils.h>
 
 using namespace states::conus_sphere_stay_state::constants;
 

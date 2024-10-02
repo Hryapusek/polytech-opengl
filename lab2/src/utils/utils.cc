@@ -5,6 +5,8 @@
 #include <memory>
 #include <mutex>
 
+#include <GL/glut.h>
+
 #include <image_loader/stb_image.h>
 
 namespace utils {

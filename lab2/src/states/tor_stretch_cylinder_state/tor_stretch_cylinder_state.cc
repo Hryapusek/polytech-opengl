@@ -1,5 +1,3 @@
-#include <utils/utils.h>
-
 #include <states/tor_stretch_cylinder_state/tor_stretch_cylinder_state.h>
 
 #include <iostream>
@@ -12,6 +10,7 @@
 #include <states/tor_cylinder_state/constants.h>
 #include <states/tor_stretch_cylinder_state/constants.h>
 #include <states/conus_sphere_stay_state/conus_sphere_stay_state.h>
+#include <utils/utils.h>
 
 using namespace states::tor_cylinder_state::constants;
 using namespace states::tor_stretch_cylinder_state::constants;

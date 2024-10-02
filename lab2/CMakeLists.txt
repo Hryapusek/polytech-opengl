@@ -14,7 +14,6 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets OpenGL)
 
 find_package(OpenGL REQUIRED) # Main library
 find_library(GLUT glut REQUIRED) # GLUTils library
-find_package(GLEW REQUIRED)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/textures DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -53,7 +52,6 @@ target_include_directories(${PROJECT_NAME}
     src/states
     src/state_machine
     external
-    ${GLEW_INCLUDE_DIRS}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -73,5 +71,4 @@ target_link_libraries(${PROJECT_NAME}
     glut
     OpenGL
     ${OPENGL_LIBRARIES}
-    ${GLEW_LIBRARIES}
 )
