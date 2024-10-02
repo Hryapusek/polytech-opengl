@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(obejct_with_textures
+project(object_with_textures
     VERSION 0.1.0
     DESCRIPTION "This project belongs to the second lab work of polytech"
 )
@@ -14,6 +14,9 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets OpenGL)
 
 find_package(OpenGL REQUIRED) # Main library
 find_library(GLUT glut REQUIRED) # GLUTils library
+find_package(GLEW REQUIRED)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/textures DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 set(PROJECT_SOURCES
     src/main.cc
@@ -35,9 +38,13 @@ set(PROJECT_SOURCES
     src/params_window/params_window.cc
 
     src/custom_widgets/fancy_slider.cc
+
+    src/utils/utils.cc
 )
 
 add_executable(${PROJECT_NAME})
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE STB_IMAGE_IMPLEMENTATION)
 
 target_include_directories(${PROJECT_NAME} 
   PRIVATE
@@ -45,12 +52,13 @@ target_include_directories(${PROJECT_NAME}
     src
     src/states
     src/state_machine
+    external
+    ${GLEW_INCLUDE_DIRS}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
   CMAKE_CXX_STANDARD 23
 )
-
 
 target_sources(${PROJECT_NAME}
   PRIVATE
@@ -64,4 +72,6 @@ target_link_libraries(${PROJECT_NAME}
     Qt${QT_VERSION_MAJOR}::Core
     glut
     OpenGL
-    ${OPENGL_LIBRARIES})
+    ${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
+)

@@ -1,3 +1,5 @@
+#include <utils/utils.h>
+
 #include <states/tor_stretch_cylinder_state/tor_stretch_cylinder_state.h>
 
 #include <iostream>
@@ -11,14 +13,14 @@
 #include <states/tor_stretch_cylinder_state/constants.h>
 #include <states/conus_sphere_stay_state/conus_sphere_stay_state.h>
 
-#include <utils/utils.h>
-
 using namespace states::tor_cylinder_state::constants;
 using namespace states::tor_stretch_cylinder_state::constants;
 
 namespace states {
   GLState* TorStretchCylinderState::display()
   {
+    static GLuint textureID = utils::loadTexture(cone_texture_path);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
 
     // --- Draw the solid cylinder ---
@@ -27,6 +29,9 @@ namespace states {
 
     // Create a quadric object for the cylinder
     GLUquadric* quadric = gluNewQuadric();
+
+    gluQuadricTexture(quadric, GL_TRUE);
+    gluQuadricNormals(quadric, GLU_SMOOTH);
 
     frames_count = frames_count > tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT ? tor_stretch_cylinder_state::constants::MAX_FRAMES_COUNT : frames_count;
 
@@ -57,8 +62,12 @@ namespace states {
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
     // Draw the wireframe cylinder (same dimensions for the overlay)
     gluCylinder(quadric, cylinder_base, cylinder_top, cylinder_height, cylinder_slices, cylinder_stacks); // Same cylinder dimensions as the solid, increased slices
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     // Reset the polygon mode to solid rendering
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

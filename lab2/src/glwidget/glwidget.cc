@@ -45,6 +45,8 @@ namespace glwidget {
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
+    glEnable(GL_TEXTURE_2D);
+
     startTimer(1000 / constants::FRAMES_PER_SECONDS);
   }
 

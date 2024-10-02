@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <GL/glew.h>
 #include <GL/glut.h>
 
 #include <QApplication>
@@ -16,8 +17,8 @@ state_machine::StateMachine *state_machine_obj = state_machine::StateMachine::in
 int main(int argc, char** argv)
 {
   glutInit(&argc, argv);
+  glewInit();
   QApplication app(argc, argv);
-
   main_window_ns::MainWindow main_window;
   main_window.resize(constants::WINDOW_WIDTH, constants::WINDOW_HEIGHT);
   state_machine_obj->set_state(new states::ConusSphereStayState());

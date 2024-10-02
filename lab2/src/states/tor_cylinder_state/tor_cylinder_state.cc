@@ -1,3 +1,5 @@
+#include <utils/utils.h>
+
 #include <states/tor_cylinder_state/tor_cylinder_state.h>
 
 #include <iostream>
@@ -14,6 +16,8 @@ using namespace states::tor_cylinder_state::constants;
 namespace states {
   GLState* TorCylinderState::display()
   {
+    static GLuint textureID = utils::loadTexture(cone_texture_path);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
 
     // --- Draw the solid cylinder ---
@@ -21,6 +25,9 @@ namespace states {
 
     // Create a quadric object for the cylinder
     GLUquadric* quadric = gluNewQuadric();
+
+    gluQuadricTexture(quadric, GL_TRUE);
+    gluQuadricNormals(quadric, GLU_SMOOTH);
 
     glTranslated(torus_start_pos.x, torus_start_pos.y, torus_start_pos.z);
 
@@ -46,8 +53,12 @@ namespace states {
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
 
+    glBindTexture(GL_TEXTURE_2D, textureID);
+
     // Draw the wireframe cylinder (same dimensions for the overlay)
     gluCylinder(quadric, cylinder_base, cylinder_top, cylinder_height, cylinder_slices, cylinder_stacks); // Same cylinder dimensions as the solid, increased slices
+
+    glBindTexture(GL_TEXTURE_2D, 0);
 
     // Reset the polygon mode to solid rendering
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -64,7 +75,7 @@ namespace states {
 
   void TorCylinderState::timeout()
   {
-    std::cout << __func__ << " timeout " << frames_count << std::endl;
+    std::cout << CURRENT_FUNCTION << " timeout " << frames_count << std::endl;
     frames_count++;
     if (frames_count == MAX_FRAMES_COUNT)
       state_machine::StateMachine::instance()->set_state(new states::TorCylinderRotateState());

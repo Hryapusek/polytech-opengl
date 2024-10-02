@@ -30,4 +30,5 @@ namespace states::tor_cylinder_state::constants {
     static constexpr GLfloat mat_specular[] = { 0.0f, 0.0f, 0.0f, 1.0f };   // No specular highlights for matte
     static constexpr GLfloat mat_shininess[] = { 0.0f };                     // Shininess (set to 0 for matte finish)
 
+    static constexpr const char *cone_texture_path = "textures/cone_texture.png";
 }

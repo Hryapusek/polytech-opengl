@@ -25,5 +25,4 @@ namespace states::conus_sphere_stay_state::constants {
 
     static constexpr GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     static constexpr GLfloat mat_shininess[] = { 120.0f }; // Shininess factor (higher values mean more polished)
-
 }
