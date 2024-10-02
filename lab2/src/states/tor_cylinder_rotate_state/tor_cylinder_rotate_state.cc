@@ -46,6 +46,12 @@ namespace states {
     glRotated(90 + frames_count * 360 / max_frames_count, 1, 0, 0);
     glTranslated(cylinder_start_pos.y, -cylinder_start_pos.x, cylinder_start_pos.z);
 
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
+    glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
     // Draw the wireframe cylinder (same dimensions for the overlay)
     gluCylinder(quadric, cylinder_base, cylinder_top, cylinder_height, cylinder_slices, cylinder_stacks); // Same cylinder dimensions as the solid, increased slices
 

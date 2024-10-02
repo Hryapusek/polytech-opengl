@@ -22,7 +22,7 @@ namespace params_window_ns {
       slider->setMinimum(-1000);
       slider->setMaximum(1000);
       slider->setValue(100);
-      slider->setTickPosition(QSlider::TickPosition::TicksAbove);
+      slider->setTickPosition(QSlider::TickPosition::NoTicks);
     }
 
     {
@@ -33,6 +33,7 @@ namespace params_window_ns {
       main_layout->addLayout(pair_layout);
       connect(x_slider, &QSlider::valueChanged,
               [this](int value) { sig_light_position_updated_x(value / 10.0f); });
+      pair_layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
     }
 
     {
@@ -43,6 +44,7 @@ namespace params_window_ns {
       main_layout->addLayout(pair_layout);
       connect(y_slider, &QSlider::valueChanged,
               [this](int value) { sig_light_position_updated_y(value / 10.0f); });
+      pair_layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
     }
 
     {
@@ -53,6 +55,7 @@ namespace params_window_ns {
       main_layout->addLayout(pair_layout);
       connect(z_slider, &QSlider::valueChanged,
               [this](int value) { sig_light_position_updated_z(value / 10.0f); });
+      pair_layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
     }
 
     {
@@ -63,12 +66,13 @@ namespace params_window_ns {
       main_layout->addLayout(pair_layout);
       connect(light_intensity_slider, &QSlider::valueChanged,
               [this](int value) { sig_light_intensity_updated(value / 10.0f); });
+      pair_layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
     }
 
     light_intensity_slider->setMinimum(0);
     light_intensity_slider->setMaximum(50);
     light_intensity_slider->setValue(10);
-    light_intensity_slider->setTickPosition(QSlider::TickPosition::TicksAbove);
+    light_intensity_slider->setTickPosition(QSlider::TickPosition::NoTicks);
 
     choose_color_button = new QPushButton();
     choose_color_button->setText("Choose Color");
