@@ -25,10 +25,6 @@ set(PROJECT_SOURCES
 
     src/states/states.cc
     src/states/conus_sphere_stay_state/conus_sphere_stay_state.cc
-    src/states/conus_sphere_moving_state/conus_sphere_stay_state.cc
-    src/states/tor_cylinder_state/tor_cylinder_state.cc
-    src/states/tor_cylinder_rotate_state/tor_cylinder_rotate_state.cc
-    src/states/tor_stretch_cylinder_state/tor_stretch_cylinder_state.cc
 
     src/glwidget/glwidget.cc
 

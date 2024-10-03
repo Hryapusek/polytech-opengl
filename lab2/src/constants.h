@@ -7,7 +7,7 @@ namespace constants
 {
     static constexpr size_t FRAMES_PER_SECONDS = 60;
 
-    static constexpr GLfloat LOWER_ALPHA = 0.5f;
+    static constexpr GLfloat LOWER_ALPHA = 0.3f;
 
     // Perspective Projection Settings
     static constexpr GLdouble FOV_Y = 45.0;  // Field of view in the Y direction

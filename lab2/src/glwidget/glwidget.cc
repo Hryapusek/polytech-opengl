@@ -37,6 +37,7 @@ namespace glwidget {
     glLoadIdentity();           // Reset the model-view matrix
 
     glEnable(GL_DEPTH_TEST); // Enable depth testing
+    glDepthFunc(GL_LEQUAL);  // Set the type of depth-test
     glDisable(GL_CULL_FACE); // Disable face culling
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
