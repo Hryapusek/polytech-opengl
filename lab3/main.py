@@ -102,7 +102,7 @@ def draw_textured_sphere(texture_id, radius, num_segments_lat, num_segments_long
 def draw_plane():
     glBegin(GL_QUADS)
     glNormal3f(0.0, 0.0, 1.0)
-    glColor3f(0.5, 0.5, 0.5)
+    glColor3f(0, 1, 0)
     glVertex3f(-3.7, -1.0, -1.6)
     glVertex3f(4.3, -1.0, -1.6)
     glVertex3f(4.3, 1.8, -1.6)
@@ -161,18 +161,18 @@ def render_matte_cylinder():
     glPushMatrix()
     glTranslatef(-3.3, -1.5, -1.0)
     configure_material_matte()
-    glColor3f(0, 1, 0)
+    glColor3f(0.4, 0.4, 0.4)
     glRotatef(27, 0, 0, 0)
     draw_smooth_cylinder(0.5, 1.2, 100)
     glPopMatrix()
 
-def render_shiny_torus():
+def render_shiny_cone():
     glPushMatrix()
     glTranslatef(-1.3, -1.5, -1.0)
     glRotatef(30, 1, 1, 0)
     configure_material_shiny()
-    glColor3f(1, 0, 0)
-    glutWireTorus(0.3, 0.8, 1000, 1000)
+    glColor3f(0.2, 0.7, 0.3)
+    glutSolidCone(1, 1, 20, 15);
     glPopMatrix()
 
 def render_textured_sphere():
@@ -215,7 +215,7 @@ def render_shadow():
     glPushMatrix()
     glTranslatef(-1.0, -0.5, -1.0)
     glRotatef(30, 1, 1, 0)
-    glutSolidTorus(0.3, 0.8, 1000, 1000)  # Тень от тора
+    glutSolidCone(1, 1, 20, 15);
     glPopMatrix()
 
     glPushMatrix()
@@ -239,7 +239,7 @@ def display():
     update_light_position()
     set_lighting_intensity()
     render_matte_cylinder()
-    render_shiny_torus()
+    render_shiny_cone()
     render_textured_sphere()
 
     render_shadow()
