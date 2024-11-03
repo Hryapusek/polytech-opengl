@@ -10,44 +10,50 @@
 #include <states/conus_sphere_stay_state/conus_sphere_stay_state.h>
 #include <constants.h>
 
+static glwidget::GLWidget* This = nullptr;
+
 namespace glwidget {
   GLWidget::GLWidget(QWidget* parent)
     : QGLWidget(parent)
   {
+    This = this;
   }
 
   void GLWidget::initializeGL()
   {
+    // Initialize display mode for double buffering, color, and depth buffer
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-    glMatrixMode(GL_PROJECTION); // Switch to projection matrix
-    glLoadIdentity();            // Reset the projection matrix
 
-    // Set up a perspective projection using the constants
+    // Set up the projection matrix
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     gluPerspective(constants::FOV_Y,
                    (double)constants::WINDOW_WIDTH / (double)constants::WINDOW_HEIGHT,
                    constants::NEAR_PLANE, constants::FAR_PLANE);
 
-    // Set the camera position and look-at point using the constants
-    gluLookAt(constants::CAMERA_POS_X, constants::CAMERA_POS_Y,
-              constants::CAMERA_POS_Z,                                          // Camera position
-              constants::LOOK_AT_X, constants::LOOK_AT_Y, constants::LOOK_AT_Z, // Look-at point
-              constants::UP_X, constants::UP_Y, constants::UP_Z);               // Up vector
+    // Switch back to the model-view matrix
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity(); // Reset the model-view matrix to identity
 
-    glMatrixMode(GL_MODELVIEW); // Switch back to model-view matrix
-    glLoadIdentity();           // Reset the model-view matrix
+    // Enable depth testing for correct z-ordering
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL); // Less than or equal for depth test
 
-    glEnable(GL_DEPTH_TEST); // Enable depth testing
-    glDepthFunc(GL_LEQUAL);  // Set the type of depth-test
-    glDisable(GL_CULL_FACE); // Disable face culling
+    // Enable face culling (optional, for performance; disable if you want to see both sides)
+    glDisable(GL_CULL_FACE);
 
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    // Enable blending if you need transparency
     glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+    // Enable lighting and the first light source
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
 
+    // Enable textures (optional)
     glEnable(GL_TEXTURE_2D);
 
+    // Start timer for updates (assuming an update function is called per frame)
     startTimer(1000 / constants::FRAMES_PER_SECONDS);
   }
 
@@ -94,5 +100,7 @@ namespace glwidget {
     glLightfv(GL_LIGHT0, GL_SPECULAR, intensity_light_specular.data()); // Specular light
     glLightfv(GL_LIGHT0, GL_POSITION, intensity_light_position.data());
   }
+
+  std::array<GLfloat, 4> glwidget::GLWidget::get_light_position() { return This->light_position; }
 
 } // namespace glwidget

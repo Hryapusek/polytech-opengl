@@ -20,8 +20,8 @@ namespace states::conus_sphere_stay_state::constants {
     static constexpr GLint sphere_slices = 100;
     static constexpr GLint sphere_stacks = 100;
 
-    static constexpr glm::dvec3 cone_start_pos = glm::dvec3(-40, 0, -19);
-    static constexpr glm::dvec3 sphere_start_pos = glm::dvec3(0, 0, -19.0);
+    static constexpr glm::dvec3 cone_start_pos = glm::dvec3(-40, 0, 20.0);
+    static constexpr glm::dvec3 sphere_start_pos = glm::dvec3(0, 0, 20.0);
 
     static constexpr GLfloat mat_specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
     static constexpr GLfloat mat_shininess[] = { 120.0f }; // Shininess factor (higher values mean more polished)

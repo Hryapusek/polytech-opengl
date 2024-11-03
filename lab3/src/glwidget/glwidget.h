@@ -41,6 +41,8 @@ namespace glwidget {
       light_intensity = new_intensity;
     }
 
+    static std::array<GLfloat, 4> get_light_position();
+
    protected:
     state_machine::StateMachine* state_machine_obj = state_machine::StateMachine::instance();
     std::array<GLfloat, 4> light_position = {1.0f, 1.0f, 1.0f, 1.0f};
