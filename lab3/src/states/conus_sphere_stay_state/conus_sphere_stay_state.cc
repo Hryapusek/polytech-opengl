@@ -79,39 +79,86 @@ namespace states {
     // Set up the camera position and orientation in the model-view matrix
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(constants::CAMERA_POS_X, constants::CAMERA_POS_Y,
-              constants::CAMERA_POS_Z,                                          // Camera position
-              constants::LOOK_AT_X, constants::LOOK_AT_Y, constants::LOOK_AT_Z, // Look-at point
-              constants::UP_X, constants::UP_Y, constants::UP_Z);               // Up vector
+    gluLookAt(constants::CAMERA_POS_X, constants::CAMERA_POS_Y, constants::CAMERA_POS_Z,
+              constants::LOOK_AT_X, constants::LOOK_AT_Y, constants::LOOK_AT_Z, constants::UP_X,
+              constants::UP_Y, constants::UP_Z);
 
-    // --- Draw Backdrop Rectangle (as a background plane) ---
+    // Retrieve the current light position from your dynamic source
+    auto lightPos = glwidget::GLWidget::get_light_position();
+    GLfloat lightPosition[] = {lightPos[0], lightPos[1], lightPos[2], 1.0f};
 
+    // Define the ground plane for the shadow projection
+    GLfloat groundPlane[] = {0.0f, 0.0f, 1.0f, -1}; // Vertical plane at z = 0.5
+
+    // Calculate the shadow projection matrix based on the current light position
+    GLfloat shadowMat[4][4];
+    shadowMatrix(shadowMat, groundPlane, lightPosition);
+
+    // --- Draw Backdrop Rectangle (as a vertical plane) ---
     glPushMatrix();
-    glColor3f(0.2f, 0.2f, 0.2f); // Light gray color for visibility
-
+    glColor3f(0.2f, 0.2f, 0.2f); // Dark gray color for the background
     glBegin(GL_QUADS);
-    glVertex3f(-100.0f, -100.0f, 0.5f); // Bottom-left
-    glVertex3f(100.0f, -100.0f, 0.5f);  // Bottom-right
-    glVertex3f(100.0f, 100.0f, 0.5f);   // Top-right
-    glVertex3f(-100.0f, 100.0f, 0.5f);  // Top-left
+    glVertex3f(-100.0f, -100.0f, 1); // Bottom-left
+    glVertex3f(100.0f, -100.0f, 1);  // Bottom-right
+    glVertex3f(100.0f, 100.0f, 1);   // Top-right
+    glVertex3f(-100.0f, 100.0f, 1);  // Top-left
     glEnd();
     glPopMatrix();
+
+    // --- Draw Shadows ---
+
+    // Disable lighting and texturing for the shadow
+    glDisable(GL_LIGHTING);
+    glDisable(GL_TEXTURE_2D);
+    glColor4f(0.0f, 0.0f, 0.0f, 0.5f); // Semi-transparent black for shadow
+
+    // Apply the shadow matrix and draw shadow of each object
+
+    // Shadow of the sphere
+    glPushMatrix();
+    glMultMatrixf((GLfloat*)shadowMat); // Apply shadow projection
+    glTranslated(sphere_start_pos.x, sphere_start_pos.y, sphere_start_pos.z);
+    glutSolidSphere(sphere_radius, sphere_slices, sphere_stacks);
+    glPopMatrix();
+
+    // Shadow of the cylinder
+    glPushMatrix();
+    glMultMatrixf((GLfloat*)shadowMat);
+    glRotated(90, 1, 0, 0);
+    glTranslated(cylinder_start_pos.y + 20, -cylinder_start_pos.x, cylinder_start_pos.z);
+    GLUquadric* quadric = gluNewQuadric();
+    gluCylinder(quadric, cylinder_base, cylinder_top, cylinder_height, cylinder_slices,
+                cylinder_stacks);
+    gluDeleteQuadric(quadric);
+    glPopMatrix();
+
+    // Shadow of the cone
+    glPushMatrix();
+    glMultMatrixf((GLfloat*)shadowMat);
+    glTranslated(cone_start_pos.x, cone_start_pos.y, cone_start_pos.z);
+    glRotated(90, -1, 0, 0);
+    glutSolidCone(cone_base, cone_height, cone_slices, cone_stacks);
+    glPopMatrix();
+
+    // Re-enable lighting and textures for actual objects
+    glEnable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
 
     // --- Draw Opaque Objects ---
 
     // Draw the sphere
     glPushMatrix();
     glTranslated(sphere_start_pos.x, sphere_start_pos.y, sphere_start_pos.z);
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f); // Fully opaque
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     glMaterialfv(GL_FRONT, GL_SPECULAR, states::conus_sphere_stay_state::constants::mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, states::conus_sphere_stay_state::constants::mat_shininess);
     glutSolidSphere(sphere_radius, sphere_slices, sphere_stacks);
     glPopMatrix();
 
-    // --- Draw Textured Cylinder ---
+    // Draw the textured cylinder
     glPushMatrix();
     static GLuint textureID = utils::loadTexture(cone_texture_path);
-    GLUquadric* quadric = gluNewQuadric();
+    quadric = gluNewQuadric();
     gluQuadricTexture(quadric, GL_TRUE);
     gluQuadricNormals(quadric, GLU_SMOOTH);
 
@@ -128,8 +175,7 @@ namespace states {
     gluDeleteQuadric(quadric);
     glPopMatrix();
 
-    // --- Draw Transparent Cone ---
-
+    // Draw the transparent cone
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDepthMask(GL_FALSE);
