@@ -1,11 +1,11 @@
-#include <states/conus_sphere_cylinder_stay_state/conus_sphere_cylinder_stay_state.h>
+#include <states/conus_sphere_stay_state/conus_sphere_stay_state.h>
 
 #include <iostream>
 
 #include <GL/glut.h> // Include GLUT for cool drawing utils
 
 #include <state_machine/state_machine.h>
-#include <states/conus_sphere_cylinder_stay_state/constants.h>
+#include <states/conus_sphere_stay_state/constants.h>
 #include <states/tor_cylinder_state/constants.h>
 #include <utils/utils.h>
 
@@ -13,7 +13,7 @@ using namespace states::conus_sphere_stay_state::constants;
 using namespace states::tor_cylinder_state::constants;
 
 namespace states {
-  GLState* ConusSphereCylinderStayState::display()
+  GLState* ConusSphereStayState::display()
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear both color and depth buffers
 
@@ -33,7 +33,7 @@ namespace states {
 
     // --- Draw Textured Cylinder ---
     glPushMatrix(); // Save the current matrix state
-    // static GLuint textureID = utils::loadTexture(cone_texture_path);
+    static GLuint textureID = utils::loadTexture(cone_texture_path);
 
     // Create a quadric object for the cylinder
     GLUquadric* quadric = gluNewQuadric();
@@ -49,7 +49,7 @@ namespace states {
     glMaterialfv(GL_FRONT, GL_SPECULAR, states::tor_cylinder_state::constants::mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, states::tor_cylinder_state::constants::mat_shininess);
 
-    // glBindTexture(GL_TEXTURE_2D, textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
 
     // Draw the textured cylinder
     gluCylinder(quadric, cylinder_base, cylinder_top, cylinder_height, cylinder_slices,
@@ -95,7 +95,7 @@ namespace states {
     return this;
   }
 
-  void ConusSphereCylinderStayState::timeout()
+  void ConusSphereStayState::timeout()
   {
     std::cout << "ConusSphereStayState timeout " << frames_count << std::endl;
     frames_count++;

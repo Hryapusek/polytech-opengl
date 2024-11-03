@@ -4,7 +4,7 @@
 #include <states/states.h>
 
 namespace states {
-  class ConusSphereCylinderStayState : public GLState
+  class ConusSphereStayState : public GLState
   {
    public:
     GLState* display() override final;

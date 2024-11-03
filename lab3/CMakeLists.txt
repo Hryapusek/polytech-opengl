@@ -15,7 +15,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Widgets OpenGL)
 find_package(OpenGL REQUIRED) # Main library
 find_library(GLUT glut REQUIRED) # GLUTils library
 
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/textures DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 set(PROJECT_SOURCES
     src/main.cc
@@ -24,11 +24,13 @@ set(PROJECT_SOURCES
     src/state_machine/state_machine.cc
 
     src/states/states.cc
-    src/states/conus_sphere_cylinder_stay_state/conus_sphere_cylinder_stay_state.cc
+    src/states/conus_sphere_stay_state/conus_sphere_stay_state.cc
 
     src/glwidget/glwidget.cc
 
     src/main_window/main_window.cc
+
+    src/params_window/params_window.cc
 
     src/custom_widgets/fancy_slider.cc
 
