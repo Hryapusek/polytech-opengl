@@ -24,8 +24,8 @@ TRACE_LENGTH_MAX = 2
 GRAVITY = np.array([0, -0.01, 0])
 
 # Cube for bump figure
-CUBE_SIZE = 2
-CUBE_POSITION = (0, 10 + CUBE_SIZE / 2, 0)
+CUBE_SIZE = 3
+CUBE_POSITION = (0, 8 + CUBE_SIZE / 2, 0)
 
 
 class Particle:
@@ -94,10 +94,11 @@ class Particle:
         return rotation_matrix
 
     def update(self, delta_time):
-        self.apply_gravity(delta_time)
-        self.update_position(delta_time)
-        self.age += delta_time
-        self.update_trail()
+      self.apply_gravity(delta_time)
+      self.update_position(delta_time)
+      self.age += delta_time
+      self.update_trail()
+
 
     def apply_gravity(self, delta_time):
         self.velocity += self.acceleration * delta_time
@@ -175,8 +176,8 @@ def initialize_particles():
 
 def update_particles(particles, delta_time):
     for particle in particles[:]:
-        particle.update(delta_time)
         handle_particle_collision(particle)
+        particle.update(delta_time)
         if particle.age > LIFETIME:
             particles.remove(particle)
             particles.append(create_particle())
@@ -184,35 +185,49 @@ def update_particles(particles, delta_time):
 
 def handle_particle_collision(particle):
     # Cube collision detection and handling (improved bounce)
-    min_x, max_x = CUBE_POSITION[0] - CUBE_SIZE / 2, CUBE_POSITION[0] + CUBE_SIZE / 2
-    min_y, max_y = CUBE_POSITION[1] - CUBE_SIZE / 2, CUBE_POSITION[1] + CUBE_SIZE / 2
-    min_z, max_z = CUBE_POSITION[2] - CUBE_SIZE / 2, CUBE_POSITION[2] + CUBE_SIZE / 2
+    min_x, max_x = CUBE_POSITION[0] - CUBE_SIZE, CUBE_POSITION[0] + CUBE_SIZE
+    min_y, max_y = CUBE_POSITION[1] - CUBE_SIZE, CUBE_POSITION[1] + CUBE_SIZE
+    min_z, max_z = CUBE_POSITION[2] - CUBE_SIZE, CUBE_POSITION[2] + CUBE_SIZE
 
-    # Debugging: Print particle position and cube bounds
-    print(f"Particle Position: {particle.position}")
-    print(f"Cube Bounds: X({min_x}, {max_x}), Y({min_y}, {max_y}), Z({min_z}, {max_z})")
+    margin = 0.05  # Fine-tune this margin to see better interaction
 
-    # Check for collision with the cube's faces
+    # Check if the particle is near the cube's faces (considering the margin)
     if (
-        min_x <= particle.position[0] <= max_x
-        and min_y <= particle.position[1] <= max_y
-        and min_z <= particle.position[2] <= max_z
+        min_x - margin <= particle.position[0] <= max_x + margin
+        and min_y - margin <= particle.position[1] <= max_y + margin
+        and min_z - margin <= particle.position[2] <= max_z + margin
     ):
+        print(f"Particle collided with cube at {particle.position}")
+        
+        # Handle collision along each axis separately
+        # Reflect particle's velocity and clamp position to cube's surface
+        
+        # X-axis collision detection
+        if min_x <= particle.position[0] <= max_x:
+            particle.velocity[0] = -particle.velocity[0]
+            # Clamp position to prevent "sticking" in the cube
+            particle.position[0] = np.clip(particle.position[0], min_x, max_x)
+        
+        # Y-axis collision detection
+        if min_y <= particle.position[1] <= max_y:
+            particle.velocity[1] = -particle.velocity[1]
+            # Clamp position to prevent "sticking" in the cube
+            particle.position[1] = np.clip(particle.position[1], min_y, max_y)
+        
+        # Z-axis collision detection
+        if min_z <= particle.position[2] <= max_z:
+            particle.velocity[2] = -particle.velocity[2]
+            # Clamp position to prevent "sticking" in the cube
+            particle.position[2] = np.clip(particle.position[2], min_z, max_z)
 
-        margin = 0.05
-        # Reflect velocity off each of the 6 cube faces
-        if min_x - margin <= particle.position[0] <= max_x + margin:
-            particle.velocity[0] = -particle.velocity[0]  # Reflect along x-axis
-        if min_y - margin <= particle.position[1] <= max_y + margin:
-            particle.velocity[1] = -particle.velocity[1]  # Reflect along y-axis
-        if min_z - margin <= particle.position[2] <= max_z + margin:
-            particle.velocity[2] = -particle.velocity[2]  # Reflect along z-axis
 
 
 def draw_cube():
-    # Duller color for the cube (grayish)
+    # Set the cube's color
     glColor3f(0.5, 0.5, 0.5)  # Light gray color
     glPushMatrix()
+    
+    # Translate to the correct position of the cube
     glTranslatef(CUBE_POSITION[0], CUBE_POSITION[1], CUBE_POSITION[2])
 
     # Draw the faces of the cube
@@ -235,7 +250,7 @@ def draw_cube():
             glVertex3f(*[CUBE_SIZE * x for x in vertex])
     glEnd()
 
-    # Draw frames around the cube faces
+    # Draw cube edges (outline)
     glColor3f(0, 0, 0)  # Black color for cube edges (frames)
     glBegin(GL_LINES)
     for face in [
@@ -263,7 +278,6 @@ def draw_cube():
     glPopMatrix()
 
 
-
 def draw_sphere():
     # Draw the sphere at the emitter position
     glPushMatrix()
@@ -285,7 +299,7 @@ def initialize_pygame():
     pygame.init()
     pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), DOUBLEBUF | OPENGL)
     pygame.display.set_caption("course work")
-    gluPerspective(45, (SCREEN_WIDTH / SCREEN_HEIGHT), 0.1, 50.0)
+    gluPerspective(60, (SCREEN_WIDTH / SCREEN_HEIGHT), 0.1, 100.0)
     glTranslatef(0.0, 0, -30)
     glRotatef(40, 0, 1, 0)
     glEnable(GL_BLEND)
