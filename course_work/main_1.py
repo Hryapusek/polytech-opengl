@@ -17,7 +17,7 @@ EMITTER_RADIUS = 1  # Radius of the sphere for particle emission
 # Particle constants
 MIN_PARTICLES = 200  # Increased number of particles
 MAX_PARTICLES = 500  # Increased number of particles
-LIFETIME = 10
+LIFETIME = 5
 PARTICLE_SIZE = 1
 TRACE_LENGTH_MIN = 1
 TRACE_LENGTH_MAX = 2
