@@ -157,14 +157,13 @@ class Particle:
 
 
 def create_particle():
-    # Random position inside the sphere
+    # Random position on the surface of the sphere
     theta = random.uniform(0, 2 * math.pi)
     phi = random.uniform(0, math.pi)
-    r = random.uniform(0, EMITTER_RADIUS)
 
-    x = EMITTER_POSITION[0] + r * math.sin(phi) * math.cos(theta)
-    y = EMITTER_POSITION[1] + r * math.cos(phi)
-    z = EMITTER_POSITION[2] + r * math.sin(phi) * math.sin(theta)
+    x = EMITTER_POSITION[0] + EMITTER_RADIUS * math.sin(phi) * math.cos(theta)
+    y = EMITTER_POSITION[1] + EMITTER_RADIUS * math.cos(phi)
+    z = EMITTER_POSITION[2] + EMITTER_RADIUS * math.sin(phi) * math.sin(theta)
 
     return Particle((x, y, z))
 
@@ -204,21 +203,15 @@ def handle_particle_collision(particle):
         
         # X-axis collision detection
         if min_x <= particle.position[0] <= max_x:
-            particle.velocity[0] = -particle.velocity[0]
-            # Clamp position to prevent "sticking" in the cube
-            particle.position[0] = np.clip(particle.position[0], min_x, max_x)
+            particle.velocity[1] = -particle.velocity[1]
         
         # Y-axis collision detection
         if min_y <= particle.position[1] <= max_y:
             particle.velocity[1] = -particle.velocity[1]
-            # Clamp position to prevent "sticking" in the cube
-            particle.position[1] = np.clip(particle.position[1], min_y, max_y)
         
         # Z-axis collision detection
         if min_z <= particle.position[2] <= max_z:
-            particle.velocity[2] = -particle.velocity[2]
-            # Clamp position to prevent "sticking" in the cube
-            particle.position[2] = np.clip(particle.position[2], min_z, max_z)
+            particle.velocity[1] = -particle.velocity[1]
 
 
 
@@ -301,7 +294,7 @@ def initialize_pygame():
     pygame.display.set_caption("course work")
     gluPerspective(60, (SCREEN_WIDTH / SCREEN_HEIGHT), 0.1, 100.0)
     glTranslatef(0.0, 0, -30)
-    glRotatef(40, 0, 1, 0)
+    # glRotatef(40, 0, 1, 0)
     glEnable(GL_BLEND)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
     return pygame.time.Clock()
